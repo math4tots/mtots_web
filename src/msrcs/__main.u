@@ -18,15 +18,22 @@ print('doc.body = %r' % [doc.body])
 canvas.width = canvas.offsetWidth
 canvas.height = canvas.offsetHeight
 
-# window.addEventListener('resize', def(event) {
-#     # print('Resized')
-#     # canvas.width = canvas.offsetWidth
-#     # canvas.height = canvas.offsetHeight
-# })
+ctx.fillStyle = '#00FEAA'
+ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+ctx.fillStyle = '#000000'
+
+window.addEventListener('resize', def(event) {
+    print('Resized')
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+})
 
 canvas.addEventListener('mousemove', def(event) {
-    # ctx.fillRect(
-    #     event.clientX - 5, event.client_y - 5,
-    #     10, 10,
-    # )
+    # print([event.clientX, event.clientY])
+    # ctx.fillStyle = '#000000'
+    ctx.fillRect(
+        event.clientX - 5, event.clientY - 5,
+        10, 10,
+    )
 })

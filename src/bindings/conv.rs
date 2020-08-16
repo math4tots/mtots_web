@@ -45,15 +45,13 @@ pub(super) fn to_js(globals: &mut Globals, value: Value) -> Result<stdweb::Value
                 let r = args.into_iter().map(|v| from_js(globals, v)).collect::<Result<Vec<_>>>();
                 let args = mtots::ordie(globals, r);
                 let r = func.apply(globals, args, None);
-                stdweb::console!(log, format!("{:?}", r));
-                // let ret = mtots::ordie(globals, r);
-                // let r = to_js(globals, ret);
-                // mtots::ordie(globals, r)
+                let ret = mtots::ordie(globals, r);
+                let r = to_js(globals, ret);
+                mtots::ordie(globals, r)
             };
             Ok(js! {
                 return function(...args) {
-                    @{func}(args);
-                    console.log("INSIDE CALLBACK FUNCTION")
+                    return @{func}(args);
                 }
             })
         }
