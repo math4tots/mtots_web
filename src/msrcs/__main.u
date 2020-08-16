@@ -1,2 +1,32 @@
+import a.web
+
 
 print('Hello world! From __main.u')
+
+doc = web.document()
+window = web.window()
+
+canvas = doc.getElementById('canvas')
+ctx = canvas.getContext('2d')
+body = doc.body
+
+print('Doc = %r' % [doc])
+print('canvas = %r' % [canvas])
+print('ctx.fillStyle = %r' % [ctx.fillStyle])
+print('doc.body = %r' % [doc.body])
+
+canvas.width = canvas.offsetWidth
+canvas.height = canvas.offsetHeight
+
+# window.addEventListener('resize', def(event) {
+#     # print('Resized')
+#     # canvas.width = canvas.offsetWidth
+#     # canvas.height = canvas.offsetHeight
+# })
+
+canvas.addEventListener('mousemove', def(event) {
+    # ctx.fillRect(
+    #     event.clientX - 5, event.client_y - 5,
+    #     10, 10,
+    # )
+})

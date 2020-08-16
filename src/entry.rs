@@ -39,6 +39,9 @@ pub fn main() {
     stdweb::initialize();
     let mut globals = mtots::Globals::new();
 
+    let r = globals.add_native_module(crate::bindings::new());
+    ordie(&mut globals, r);
+
     globals.set_print(|string| {
         stdweb::console!(log, string);
     });
