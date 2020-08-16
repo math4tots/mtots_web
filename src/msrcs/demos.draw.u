@@ -1,0 +1,70 @@
+import a.web
+
+
+def main() {
+    print('Hello world! From __main.u')
+
+    doc = web.document()
+    window = web.window()
+
+    canvas = doc.getElementById('canvas')
+    ctx = canvas.getContext('2d')
+    body = doc.body
+
+    down = false
+
+    print('Doc = %r' % [doc])
+    print('canvas = %r' % [canvas])
+    print('ctx.fillStyle = %r' % [ctx.fillStyle])
+    print('doc.body = %r' % [doc.body])
+
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+
+    ctx.fillStyle = '#00FEAA'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = '#000000'
+
+    last_point = nil
+
+    window.addEventListener('resize', def(event) {
+        print('Resized')
+        canvas.width = canvas.offsetWidth
+        canvas.height = canvas.offsetHeight
+        ctx.fillStyle = '#00FEAA'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = '#000000'
+    })
+
+    canvas.addEventListener('mousedown', def(event) {
+        nonlocal down, last_point
+        down = true
+        last_point = nil
+    })
+
+    canvas.addEventListener('mouseup', def(event) {
+        nonlocal down, last_point
+        down = false
+        last_point = nil
+    })
+
+    canvas.addEventListener('mousemove', def(event) {
+        nonlocal last_point
+        # print([event.clientX, event.clientY])
+        # ctx.fillStyle = '#000000'
+        if down {
+            # ctx.fillRect(
+            #     event.clientX - 5, event.clientY - 5,
+            #     10, 10,
+            # )
+            if last_point is nil {
+                ctx.moveTo(event.clientX, event.clientY)
+            } else {
+                ctx.lineTo(event.clientX, event.clientY)
+                ctx.lineWidth = 20
+                ctx.stroke()
+            }
+            last_point = [event.clientX, event.clientY]
+        }
+    })
+}

@@ -32,6 +32,8 @@ macro_rules! add_src {
 
 fn add_srcs(globals: &mut Globals) -> Result<()> {
     add_src!(globals, "__main");
+    add_src!(globals, "demos.draw");
+    add_src!(globals, "demos.pixel");
     Ok(())
 }
 

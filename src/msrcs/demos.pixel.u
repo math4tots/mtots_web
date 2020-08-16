@@ -1,0 +1,57 @@
+import a.web
+
+NROWS = 128
+NCOLS = 128
+
+def main() {
+    doc = web.document()
+    window = web.window()
+
+    canvas = doc.getElementById('canvas')
+    ctx = canvas.getContext('2d')
+
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+
+    ctx.fillStyle = '#00FEAA'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = '#000000'
+
+    window.addEventListener('resize', def(event) {
+        print('Resized')
+        canvas.width = canvas.offsetWidth
+        canvas.height = canvas.offsetHeight
+        ctx.fillStyle = '#00FEAA'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = '#000000'
+    })
+
+    def fill(x, y) {
+        width = canvas.width
+        height = canvas.height
+        rect_width = width / NCOLS
+        rect_height = height / NROWS
+        x = x - (x % rect_width)
+        y = y - (y % rect_height)
+        ctx.fillRect(x, y, rect_width, rect_height)
+    }
+
+    down = false
+
+    canvas.addEventListener('mousedown', def(event) {
+        nonlocal down
+        down = true
+        fill(event.clientX, event.clientY)
+    })
+
+    canvas.addEventListener('mouseup', def(event) {
+        nonlocal down
+        down = false
+    })
+
+    canvas.addEventListener('mousemove', def(event) {
+        if down {
+            fill(event.clientX, event.clientY)
+        }
+    })
+}
