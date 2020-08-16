@@ -1,9 +1,11 @@
 import demos.draw
 import demos.pixel
+import demos.code
 
-name = 'pixel'
+name = 'code'
 
 switch name {
     'draw' => draw.main()
     'pixel' => pixel.main()
+    'code' => code.main()
 }

@@ -34,14 +34,16 @@ fn add_srcs(globals: &mut Globals) -> Result<()> {
     add_src!(globals, "__main");
     add_src!(globals, "demos.draw");
     add_src!(globals, "demos.pixel");
+    add_src!(globals, "demos.code");
+    add_src!(globals, "demos.code.sample");
     Ok(())
 }
 
 pub fn main() {
     stdweb::initialize();
 
-    // we need to leak globals, because callbacks require
-    // access to Globals, but there's no real good way to get it for them.
+    // Callbacks require access to Globals, but there's no real good
+    // way to get it for them.
     // So we just leak it.
     let globals = Box::leak(Box::new(mtots::Globals::new()));
 

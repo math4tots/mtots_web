@@ -1,0 +1,90 @@
+
+CODE = r###"# little demo program
+# for drawing on the canvas by clicking on it
+import a.web
+
+NROWS = 128
+NCOLS = 128
+
+def main(ctx) {
+    window = web.window()
+    canvas = ctx.canvas
+    lastx = lasty = nil
+
+    ctx.fillStyle = '#00FEAA'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = '#000000'
+
+    def fill_to(x, y) {
+        nonlocal lastx, lasty
+        width = canvas.width
+        height = canvas.height
+        rect_width = width / NCOLS
+        rect_height = height / NROWS
+        fill(x, y)
+        if lastx is not nil and lasty is not nil {
+            while abs(lastx - x) >= rect_width or abs(lasty - y) >= rect_height {
+                if lastx < x {
+                    lastx += rect_width
+                } else {
+                    lastx -= rect_width
+                }
+                if lasty < y {
+                    lasty += rect_height
+                } else {
+                    lasty -= rect_height
+                }
+                fill(lastx, lasty)
+            }
+        }
+        lastx = x
+        lasty = y
+    }
+
+    def fill(x, y) {
+        width = canvas.width
+        height = canvas.height
+        rect_width = width / NCOLS
+        rect_height = height / NROWS
+        x = x - (x % rect_width)
+        y = y - (y % rect_height)
+        ctx.fillRect(x, y, rect_width, rect_height)
+    }
+
+    down = false
+
+    window.addEventListener('resize', def(event) {
+        # Anything printed shows up in the JS console
+        print('Resized')
+        canvas.width = canvas.offsetWidth
+        canvas.height = canvas.offsetHeight
+        oldfillstyle = ctx.fillStyle
+        ctx.fillStyle = '#00FEAA'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = oldfillstyle
+    })
+
+    canvas.addEventListener('mousedown', def(event) {
+        print('mousedown %r' % [[event.clientX, event.clientY]])
+        nonlocal down, lastx, lasty
+        down = true
+        lastx = lasty = nil
+        starty = canvas.getBoundingClientRect().top
+        startx = canvas.getBoundingClientRect().left
+        fill(event.clientX - startx, event.clientY - starty)
+    })
+
+    canvas.addEventListener('mouseup', def(event) {
+        nonlocal down
+        down = false
+    })
+
+    canvas.addEventListener('mousemove', def(event) {
+        if down {
+            starty = canvas.getBoundingClientRect().top
+            startx = canvas.getBoundingClientRect().left
+            fill_to(event.clientX - startx, event.clientY - starty)
+        }
+    })
+}
+"###

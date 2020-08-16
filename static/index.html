@@ -2,19 +2,52 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>stdweb • Canvas</title>
+		<title>Canvas demo</title>
 		<style>
-			html, body, canvas {
+			html, body {
 				margin: 0px;
 				padding: 0px;
 				width: 100%;
 				height: 100%;
 				overflow: hidden;
 			}
+			canvas {
+				margin: 0px;
+				padding: 0px;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			.column {
+				float: left;
+				width: 50%;
+				height: 100%;
+			}
+			.row {
+				width: 100%;
+				height: 100%;
+			}
+			.row:after {
+				content: "";
+				display: table;
+				clear: both;
+			}
+			.CodeMirror { height: 100%; }
 		</style>
+		<link rel="stylesheet" href="lib/codemirror.css">
 	</head>
 	<body>
-		<canvas id="canvas"></canvas>
+		<div class="row">
+			<div class = "column">
+				<button id='run-button'>Run</button>
+				<button id='save-button'>Save</button>
+				<textarea id="code"></textarea>
+			</div>
+			<div class = "column">
+				<canvas id="canvas"></canvas>
+			</div>
+		</div>
+		<script src="lib/codemirror.js"></script>
 		<script src="mtots_web.js"></script>
 	</body>
 </html>
